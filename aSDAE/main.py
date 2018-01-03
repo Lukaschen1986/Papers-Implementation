@@ -13,13 +13,15 @@ from dataset import MovieLens100k
 
 
 if __name__ == "__main__":
+    data_path="../data/"
+
     train_user_vec, train_user_add, train_movie_vec, train_movie_add, train_rating \
-        = MovieLens100k.create_data("../data/ml-100k/u1.base", "../data/ml-100k/u.user",
-                                "../data/ml-100k/u.item", 943, 1682)
+        = MovieLens100k.create_data(data_path+"ml-100k/u1.base", data_path+"ml-100k/u.user",
+                                data_path+"ml-100k/u.item.n", 943, 1682)
 
     test_user_vec, test_user_add, test_movie_vec, test_movie_add, test_rating \
-        = MovieLens100k.create_data("../data/ml-100k/u1.test", "../data/ml-100k/u.user",
-                                "../data/ml-100k/u.item", 943, 1682)
+        = MovieLens100k.create_data(data_path+"ml-100k/u1.test", data_path+"ml-100k/u.user",
+                                data_path+"ml-100k/u.item.n", 943, 1682)
 
     save = ModelCheckpoint("weights.h5", verbose=1, save_best_only=True, save_weights_only=True)
     early= EarlyStopping(patience=10, verbose=1)

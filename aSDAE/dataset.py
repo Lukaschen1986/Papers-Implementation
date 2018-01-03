@@ -7,21 +7,19 @@ import numpy as np
 class MovieLens100k:
     @staticmethod
     def read_user_info(filename):
-        user_info = pd.read_csv(filename, header=None, sep="|", usecols=[0, 1, 2, 3])
-        user_info.columns = ["user_id", "age", "gender", "occupation"]
-        user_info["gender"] = user_info["gender"].map(lambda x: int(x == "M"))
-        user_info = pd.get_dummies(user_info, prefix="o", columns=["occupation"])
-        user_info.columns = ["user_id", "age", "gender", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                             "11", "12","13", "14", "15", "16", "17", "18", "19", "20", "21"]
+        user_info = pd.read_csv(filename, header=None, sep="|")
+        user_info.columns = ["user_id", "age", "gender", "occupation", "zipcode"]
+        user_info = pd.get_dummies(user_info, columns=["gender", "occupation", "zipcode"])
         return user_info
 
 
     @staticmethod
     def read_movie_info(filename):
         item_info = pd.read_csv(filename, header=None, sep="|",
-                                usecols=[0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23])
-        item_info.columns = ["movie_id", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16",
-                             "17", "18", "19", "20", "21", "22", "23"]
+                                usecols=[0,1,2,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23])
+        item_info.columns = ["movie_id","movie_title","release_date","5","6","7","8","9","10","11","12","13",
+                             "14","15","16","17","18","19","20","21","22","23"]
+        item_info = pd.get_dummies(item_info, columns=["movie_title", "release_date"])
         return item_info
 
 
@@ -33,7 +31,7 @@ class MovieLens100k:
             user_id = int(line[0])
             movie_id = int(line[1])
             rating = int(line[2])
-            matrix[user_id - 1][movie_id - 1] = rating
+            matrix[user_id - 1][movie_id - 1] = int(rating>=4)
         return matrix
 
 
