@@ -29,8 +29,8 @@ if __name__ == "__main__":
 
     model, loss = sadae.aSDAE_reSys([train_user_vec.shape[1]], [train_user_add.shape[1]],
                               [train_movie_vec.shape[1]], [train_movie_add.shape[1]],
-                              500, user_hun=[1000,800], item_hun=[700], alpha_1=0.1,
-                              alpha_2=0.1, lam=0.2)
+                              200, user_hun=[1000,500], item_hun=[700,500], alpha_1=0.1,
+                              alpha_2=0.1, lam=0.1)
 
     model.compile(optimizer, loss, metrics=[keras.losses.mean_squared_error])
     model.fit(x=[train_user_vec, train_user_add, train_movie_vec, train_movie_add], y=train_rating,
